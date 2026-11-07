@@ -1,0 +1,48 @@
+{
+  "page_count": 1,
+  "page_size": 50,
+  "total_items": 4,
+  "page": 1,
+  "bookings": [
+    {
+      "id": 90001,
+      "type": "cancellation",
+      "arrival": "2030-01-09",
+      "departure": "2030-01-13",
+      "firstname": "Max",
+      "lastname": "Sample",
+      "language": "de",
+      "is-blocked-booking": false
+    },
+    {
+      "id": 90002,
+      "type": "reservation",
+      "arrival": "2030-01-08",
+      "departure": "2030-01-12",
+      "firstname": "Anna",
+      "lastname": "Example",
+      "language": "nl",
+      "is-blocked-booking": false
+    },
+    {
+      "id": 90003,
+      "type": "reservation",
+      "arrival": "2030-01-12",
+      "departure": "2030-01-14",
+      "firstname": "",
+      "lastname": "",
+      "language": "",
+      "is-blocked-booking": true
+    },
+    {
+      "id": 90004,
+      "type": "reservation",
+      "arrival": "2030-01-15",
+      "departure": "2030-01-19",
+      "firstname": "Sam",
+      "lastname": "Demo",
+      "language": "fr",
+      "is-blocked-booking": false
+    }
+  ]
+}

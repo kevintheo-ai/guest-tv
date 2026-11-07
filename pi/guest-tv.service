@@ -1,0 +1,15 @@
+[Unit]
+Description=guest-tv server for the TVs (www on :8090, POST /tv/setting)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__HOME__/guest-tv
+ExecStart=/usr/bin/python3 __HOME__/guest-tv/serve.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

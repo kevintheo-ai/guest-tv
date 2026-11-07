@@ -1,0 +1,9 @@
+{
+  "updated": null,
+  "guest": null,
+  "wlan": { "ssid": "", "password": "" },
+  "qr": { "wlan": null, "whatsapp": null, "guestcard": null, "video": null },
+  "weather": null,
+  "photos": [],
+  "content": null
+}

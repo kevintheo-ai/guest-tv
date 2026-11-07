@@ -1,0 +1,13 @@
+{
+  "id": "com.example.guesttv",
+  "version": "1.0.0",
+  "vendor": "guest-tv",
+  "type": "web",
+  "main": "index.html",
+  "title": "Guest TV",
+  "icon": "assets/icon.png",
+  "largeIcon": "assets/icon-large.png",
+  "resolution": "1920x1080",
+  "disableBackHistoryAPI": true,
+  "uiRevision": 2
+}

@@ -1,0 +1,10 @@
+[Unit]
+Description=guest-tv state builder (one run, started by the timer)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=__USER__
+WorkingDirectory=__HOME__/guest-tv
+ExecStart=/usr/bin/python3 __HOME__/guest-tv/state_builder.py

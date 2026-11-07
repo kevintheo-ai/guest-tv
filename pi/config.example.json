@@ -1,0 +1,12 @@
+{
+  "tvs": {"192.168.1.21": "02:00:00:00:00:01"},
+  "turnover": false,
+  "timezone": "Europe/Zurich",
+  "smoobu_apartment_id": "",
+  "bookings_file": "",
+  "weather": {"lat": null, "lon": null},
+  "mountain": [],
+  "bus": {"station_id": "", "via": []},
+  "webcams": [],
+  "photos": []
+}

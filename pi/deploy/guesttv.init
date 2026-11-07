@@ -1,0 +1,63 @@
+#!/bin/sh
+# guest-tv: start the portal after a cold boot and on every power-on (webosbrew init.d, webOS 4+).
+# tv_install.sh copies this file to /var/lib/webosbrew/init.d/guesttv
+# Runs in the background (does not block the other init.d scripts).
+# luna-send -i instead of -n 1: measured on webOS 4.10 and 5.6, `luna-send -n 1` prints nothing. -i prints
+# the reply but keeps waiting -> kill it and collect it with wait. The output only lands in the file after
+# the process has ended (buffered), so poll instead of following a subscription.
+
+launch() {  # portal to the front; true when the application manager confirms it
+  luna-send -i luna://com.webos.applicationManager/launch '{"id":"com.example.guesttv"}' \
+    > /tmp/guesttv-launch.log 2>&1 &
+  P=$!
+  sleep 5
+  kill "$P" 2>/dev/null
+  wait "$P" 2>/dev/null
+  grep -q '"returnValue": *true' /tmp/guesttv-launch.log
+}
+
+power_state() {  # "Active", "Active Standby", "Suspend", "Screen Off", ... (empty = no reply)
+  luna-send -i luna://com.webos.service.tvpower/power/getPowerState '{}' > /tmp/guesttv-power.txt 2>&1 &
+  P=$!
+  sleep 1
+  kill "$P" 2>/dev/null
+  wait "$P" 2>/dev/null
+  sed -n 's/.*"state": *"\([^"]*\)".*/\1/p' /tmp/guesttv-power.txt
+}
+
+# After the boot: up to 8 tries every 15 s, the application manager is often not ready at first
+(
+  i=0
+  while [ "$i" -lt 8 ]; do
+    sleep 15
+    launch && break
+    i=$((i + 1))
+  done
+) >/dev/null 2>&1 &
+
+# Power-on = portal: otherwise the TV goes back to the last input (a console, say); LG's "start Home
+# automatically" does not help here (measured on webOS 5.6). Only leaving standby counts; after "Screen Off"
+# (picture off, sound on) the running app stays. One watcher per boot.
+PIDF=/tmp/guesttv-power.pid
+# With Quick Start+ on, the TV falls asleep almost right after power off and the watcher never sees the
+# standby (webOS 4.10 then showed live TV instead of the portal). /proc/uptime keeps counting during sleep:
+# if it jumps by more than 20 s between two rounds, the TV was in standby -> portal on the next "Active" too.
+if ! { [ -f "$PIDF" ] && kill -0 "$(cat "$PIDF")" 2>/dev/null; }; then
+  (
+    prev=""
+    last=$(cut -d. -f1 /proc/uptime)
+    while true; do
+      st=$(power_state)
+      now=$(cut -d. -f1 /proc/uptime)
+      if [ $((now - last)) -gt 20 ]; then prev="Suspend"; fi
+      if [ "$st" = "Active" ]; then
+        case "$prev" in "Active Standby" | "Suspend") launch ;; esac
+      fi
+      [ -n "$st" ] && prev=$st
+      last=$now
+      sleep 2
+    done
+  ) >/dev/null 2>&1 &
+  echo $! > "$PIDF"
+fi
+exit 0

@@ -1,0 +1,16 @@
+[project]
+name = "guest-tv"
+version = "1.0.0"
+description = "A hotel-style home screen for rooted LG webOS TVs in a holiday rental, with a Raspberry Pi that greets each guest and resets the TVs after every departure."
+requires-python = ">=3.11"
+license = "MIT"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = [
+    "E501",  # long lines are left to the formatter
+]

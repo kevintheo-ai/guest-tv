@@ -1,0 +1,563 @@
+{
+  "practical": {
+    "checkout": {
+      "de": [
+        "Geschirrspüler einräumen und starten",
+        "Alle Fenster schließen",
+        "Müll entsorgen",
+        "Schlüssel auf den Küchentisch legen"
+      ],
+      "en": [
+        "Load and start the dishwasher",
+        "Close all windows",
+        "Take out the rubbish",
+        "Leave the keys on the kitchen table"
+      ],
+      "fr": [
+        "Remplir et lancer le lave-vaisselle",
+        "Fermer toutes les fenêtres",
+        "Sortir les poubelles",
+        "Laisser les clés sur la table de la cuisine"
+      ],
+      "it": [
+        "Caricare e avviare la lavastoviglie",
+        "Chiudere tutte le finestre",
+        "Portare fuori la spazzatura",
+        "Lasciare le chiavi sul tavolo della cucina"
+      ],
+      "nl": [
+        "Vaatwasser vullen en aanzetten",
+        "Alle ramen sluiten",
+        "Afval wegbrengen",
+        "Sleutels op de keukentafel leggen"
+      ],
+      "pl": [
+        "Załaduj i włącz zmywarkę",
+        "Zamknij wszystkie okna",
+        "Wynieś śmieci",
+        "Zostaw klucze na stole w kuchni"
+      ]
+    },
+    "rules": {
+      "de": [
+        "Rauchen verboten",
+        "Keine Partys oder Veranstaltungen",
+        "Nachtruhe von 22:00 bis 7:00"
+      ],
+      "en": [
+        "No smoking",
+        "No parties or events",
+        "Quiet hours from 22:00 to 7:00"
+      ],
+      "fr": [
+        "Non-fumeur",
+        "Pas de fêtes ni d'événements",
+        "Calme de 22:00 à 7:00"
+      ],
+      "it": [
+        "Vietato fumare",
+        "Niente feste o eventi",
+        "Silenzio dalle 22:00 alle 7:00"
+      ],
+      "nl": [
+        "Niet roken",
+        "Geen feesten of evenementen",
+        "Nachtrust van 22:00 tot 7:00"
+      ],
+      "pl": [
+        "Zakaz palenia",
+        "Bez imprez i wydarzeń",
+        "Cisza nocna od 22:00 do 7:00"
+      ]
+    }
+  },
+  "around": [
+    {
+      "title": {
+        "de": "Essen & Trinken",
+        "en": "Food & drink",
+        "fr": "Restaurants",
+        "it": "Mangiare e bere",
+        "nl": "Eten & drinken",
+        "pl": "Jedzenie i picie"
+      },
+      "places": [
+        {
+          "name": "Village Pizzeria",
+          "desc": {
+            "de": "2 Min zu Fuß · Pizza & Pasta",
+            "en": "2 min on foot · pizza & pasta",
+            "fr": "2 min à pied · pizza & pâtes",
+            "it": "2 min a piedi · pizza e pasta",
+            "nl": "2 min lopen · pizza & pasta",
+            "pl": "2 min pieszo · pizza i makaron"
+          },
+          "addr": "Main Street 1",
+          "tel": "+41 00 000 00 00",
+          "hours": {
+            "de": "Täglich 11:30 bis 22:00",
+            "en": "Daily 11:30 to 22:00",
+            "fr": "Tous les jours 11:30 à 22:00",
+            "it": "Tutti i giorni 11:30 alle 22:00",
+            "nl": "Dagelijks 11:30 tot 22:00",
+            "pl": "Codziennie 11:30 do 22:00"
+          },
+          "web": "example.com"
+        },
+        {
+          "name": "Corner Bakery",
+          "desc": {
+            "de": "Frisches Brot ab 7:00",
+            "en": "Fresh bread from 7:00",
+            "fr": "Pain frais dès 7:00",
+            "it": "Pane fresco dalle 7:00",
+            "nl": "Vers brood vanaf 7:00",
+            "pl": "Świeże pieczywo od 7:00"
+          }
+        },
+        {
+          "name": "Lakeside Café",
+          "desc": {
+            "de": "Kaffee, Kuchen & Seeblick",
+            "en": "Coffee, cake & lake view",
+            "fr": "Café, gâteaux & vue sur le lac",
+            "it": "Caffè, dolci e vista lago",
+            "nl": "Koffie, gebak & uitzicht op het meer",
+            "pl": "Kawa, ciasto i widok na jezioro"
+          }
+        },
+        {
+          "name": "Old Mill Restaurant",
+          "desc": {
+            "de": "Regionale Küche · bitte reservieren",
+            "en": "Regional cuisine · please book",
+            "fr": "Cuisine régionale · réservez",
+            "it": "Cucina regionale · prenotate",
+            "nl": "Regionale keuken · reserveer",
+            "pl": "Kuchnia regionalna · rezerwacja"
+          },
+          "addr": "Main Street 1",
+          "tel": "+41 00 000 00 00",
+          "note": {
+            "de": "Montags geschlossen",
+            "en": "Closed on Mondays",
+            "fr": "Fermé le lundi",
+            "it": "Chiuso il lunedì",
+            "nl": "Op maandag gesloten",
+            "pl": "W poniedziałki zamknięte"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "de": "Draußen",
+        "en": "Outdoors",
+        "fr": "Plein air",
+        "it": "All'aperto",
+        "nl": "Buiten",
+        "pl": "Na zewnątrz"
+      },
+      "places": [
+        {
+          "name": "Panorama Trail",
+          "desc": {
+            "de": "Leichte Runde · 5 km, 1:30 h",
+            "en": "Easy loop · 5 km, 1:30 h",
+            "fr": "Boucle facile · 5 km, 1:30 h",
+            "it": "Anello facile · 5 km, 1:30 h",
+            "nl": "Makkelijke ronde · 5 km, 1:30 u",
+            "pl": "Łatwa pętla · 5 km, 1:30 h"
+          }
+        },
+        {
+          "name": "Summit Cable Car",
+          "desc": {
+            "de": "In 12 Min auf 2000 m",
+            "en": "Up to 2,000 m in 12 min",
+            "fr": "Jusqu'à 2000 m en 12 min",
+            "it": "Fino a 2000 m in 12 min",
+            "nl": "In 12 min naar 2000 m",
+            "pl": "Na 2000 m w 12 min"
+          },
+          "hours": {
+            "de": "Juni bis Oktober, 8:30 bis 17:00",
+            "en": "June to October, 8:30 to 17:00",
+            "fr": "Juin à octobre, 8:30 à 17:00",
+            "it": "Da giugno a ottobre, 8:30 alle 17:00",
+            "nl": "Juni tot oktober, 8:30 tot 17:00",
+            "pl": "Od czerwca do października, 8:30 do 17:00"
+          },
+          "web": "example.com"
+        },
+        {
+          "name": "Swimming Lake",
+          "desc": {
+            "de": "20 Min zu Fuß · Badesee",
+            "en": "20 min on foot · lake for swimming",
+            "fr": "20 min à pied · lac de baignade",
+            "it": "20 min a piedi · lago balneabile",
+            "nl": "20 min lopen · zwemmeer",
+            "pl": "20 min pieszo · jezioro do kąpieli"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "de": "Regentage",
+        "en": "Rainy days",
+        "fr": "Jours de pluie",
+        "it": "Giorni di pioggia",
+        "nl": "Regendagen",
+        "pl": "Deszczowe dni"
+      },
+      "places": [
+        {
+          "name": "Indoor Pool",
+          "desc": {
+            "de": "Hallenbad mit Sauna",
+            "en": "Swimming pool with sauna",
+            "fr": "Piscine couverte avec sauna",
+            "it": "Piscina coperta con sauna",
+            "nl": "Binnenzwembad met sauna",
+            "pl": "Kryty basen z sauną"
+          },
+          "addr": "Main Street 1",
+          "hours": {
+            "de": "Täglich 10:00 bis 21:00",
+            "en": "Daily 10:00 to 21:00",
+            "fr": "Tous les jours 10:00 à 21:00",
+            "it": "Tutti i giorni 10:00 alle 21:00",
+            "nl": "Dagelijks 10:00 tot 21:00",
+            "pl": "Codziennie 10:00 do 21:00"
+          }
+        },
+        {
+          "name": "Village Museum",
+          "desc": {
+            "de": "Ortsgeschichte · Mi bis So",
+            "en": "Local history · Wed to Sun",
+            "fr": "Histoire locale · mer à dim",
+            "it": "Storia locale · mer a dom",
+            "nl": "Lokale geschiedenis · wo tot zo",
+            "pl": "Historia lokalna · śr. do nd."
+          }
+        },
+        {
+          "name": "Bowling Centre",
+          "desc": {
+            "de": "8 Bahnen · auch für Kinder",
+            "en": "8 lanes · fun for kids too",
+            "fr": "8 pistes · aussi pour enfants",
+            "it": "8 piste · anche per bambini",
+            "nl": "8 banen · ook voor kinderen",
+            "pl": "8 torów · także dla dzieci"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "de": "Unterwegs",
+        "en": "Getting around",
+        "fr": "Se déplacer",
+        "it": "In giro",
+        "nl": "Onderweg",
+        "pl": "Po okolicy"
+      },
+      "bus": true,
+      "places": [
+        {
+          "name": "Village Taxi",
+          "desc": {
+            "de": "Rund um die Uhr · bitte anrufen",
+            "en": "Around the clock · please call",
+            "fr": "24 h sur 24 · appelez",
+            "it": "24 ore su 24 · chiamate",
+            "nl": "Dag en nacht · even bellen",
+            "pl": "Całą dobę · prosimy dzwonić"
+          },
+          "tel": "+41 00 000 00 00"
+        },
+        {
+          "name": "Train Station",
+          "desc": {
+            "de": "10 Min zu Fuß · Ticketautomat",
+            "en": "10 min on foot · ticket machine",
+            "fr": "10 min à pied · distributeur",
+            "it": "10 min a piedi · emettitrice biglietti",
+            "nl": "10 min lopen · kaartautomaat",
+            "pl": "10 min pieszo · biletomat"
+          }
+        }
+      ]
+    }
+  ],
+  "help": {
+    "contact": {
+      "phone": "+41 00 000 00 00",
+      "whatsapp": "https://wa.me/41000000000"
+    },
+    "guestcard": {
+      "url": "https://example.com/guest-card",
+      "label": "example.com/guest-card"
+    },
+    "faq": {
+      "de": [
+        {
+          "q": "Wann ist Check-in und Check-out?",
+          "a": "Check-in ab 16:00, Check-out bis 11:00. Brauchen Sie eine andere Zeit, schreiben Sie uns einfach."
+        },
+        {
+          "q": "Wo kann ich parken?",
+          "a": "Ihr Parkplatz ist direkt vor dem Haus. Besuch parkt bitte auf dem öffentlichen Parkplatz."
+        },
+        {
+          "q": "Kann man das Leitungswasser trinken?",
+          "a": "Ja, das Leitungswasser hat beste Qualität."
+        },
+        {
+          "q": "Wo finde ich die Bedienungsanleitungen?",
+          "a": "Alle Anleitungen sind online. Scannen Sie den QR-Code, um sie zu öffnen.",
+          "url": "https://example.com/manuals"
+        }
+      ],
+      "en": [
+        {
+          "q": "When are check-in and check-out?",
+          "a": "Check-in from 16:00, check-out by 11:00. If you need a different time, just send us a message."
+        },
+        {
+          "q": "Where can I park?",
+          "a": "Your parking space is right in front of the house. Visitors please use the public car park."
+        },
+        {
+          "q": "Is the tap water drinkable?",
+          "a": "Yes, the tap water is of excellent quality."
+        },
+        {
+          "q": "Where are the appliance manuals?",
+          "a": "All manuals are online. Scan the QR code to open them.",
+          "url": "https://example.com/manuals"
+        }
+      ],
+      "fr": [
+        {
+          "q": "Quand ont lieu l'arrivée et le départ ?",
+          "a": "Arrivée dès 16:00, départ avant 11:00. Pour un autre horaire, envoyez-nous simplement un message."
+        },
+        {
+          "q": "Où puis-je me garer ?",
+          "a": "Votre place de parking se trouve juste devant la maison. Les visiteurs utilisent le parking public."
+        },
+        {
+          "q": "L'eau du robinet est-elle potable ?",
+          "a": "Oui, l'eau du robinet est d'excellente qualité."
+        },
+        {
+          "q": "Où sont les modes d'emploi ?",
+          "a": "Tous les modes d'emploi sont en ligne. Scannez le code QR pour les ouvrir.",
+          "url": "https://example.com/manuals"
+        }
+      ],
+      "it": [
+        {
+          "q": "Quando sono il check-in e il check-out?",
+          "a": "Check-in dalle 16:00, check-out entro le 11:00. Se vi serve un altro orario, scriveteci un messaggio."
+        },
+        {
+          "q": "Dove posso parcheggiare?",
+          "a": "Il vostro posto auto è proprio davanti alla casa. Gli ospiti in visita usano il parcheggio pubblico."
+        },
+        {
+          "q": "L'acqua del rubinetto è potabile?",
+          "a": "Sì, l'acqua del rubinetto è di ottima qualità."
+        },
+        {
+          "q": "Dove sono i manuali degli apparecchi?",
+          "a": "Tutti i manuali sono online. Scansionate il codice QR per aprirli.",
+          "url": "https://example.com/manuals"
+        }
+      ],
+      "nl": [
+        {
+          "q": "Wanneer zijn check-in en check-out?",
+          "a": "Inchecken vanaf 16:00, uitchecken tot 11:00. Heeft u een ander tijdstip nodig, stuur ons dan een bericht."
+        },
+        {
+          "q": "Waar kan ik parkeren?",
+          "a": "Uw parkeerplaats is direct voor het huis. Bezoekers parkeren op de openbare parkeerplaats."
+        },
+        {
+          "q": "Is het kraanwater drinkbaar?",
+          "a": "Ja, het kraanwater is van uitstekende kwaliteit."
+        },
+        {
+          "q": "Waar vind ik de handleidingen?",
+          "a": "Alle handleidingen staan online. Scan de QR-code om ze te openen.",
+          "url": "https://example.com/manuals"
+        }
+      ],
+      "pl": [
+        {
+          "q": "Kiedy jest zameldowanie i wymeldowanie?",
+          "a": "Zameldowanie od 16:00, wymeldowanie do 11:00. Jeśli potrzebujecie innej godziny, napiszcie do nas."
+        },
+        {
+          "q": "Gdzie mogę zaparkować?",
+          "a": "Wasze miejsce parkingowe jest tuż przed domem. Goście odwiedzający parkują na parkingu publicznym."
+        },
+        {
+          "q": "Czy woda z kranu nadaje się do picia?",
+          "a": "Tak, woda z kranu jest doskonałej jakości."
+        },
+        {
+          "q": "Gdzie są instrukcje obsługi?",
+          "a": "Wszystkie instrukcje są online. Zeskanujcie kod QR, aby je otworzyć.",
+          "url": "https://example.com/manuals"
+        }
+      ]
+    },
+    "video": {
+      "url": "https://example.com/welcome-video"
+    },
+    "emergency": {
+      "numbers": [
+        {
+          "n": "144",
+          "label": {
+            "de": "Sanität",
+            "en": "Ambulance",
+            "fr": "Ambulance",
+            "it": "Ambulanza",
+            "nl": "Ambulance",
+            "pl": "Pogotowie"
+          }
+        },
+        {
+          "n": "117",
+          "label": {
+            "de": "Polizei",
+            "en": "Police",
+            "fr": "Police",
+            "it": "Polizia",
+            "nl": "Politie",
+            "pl": "Policja"
+          }
+        },
+        {
+          "n": "118",
+          "label": {
+            "de": "Feuerwehr",
+            "en": "Fire brigade",
+            "fr": "Pompiers",
+            "it": "Pompieri",
+            "nl": "Brandweer",
+            "pl": "Straż pożarna"
+          }
+        },
+        {
+          "n": "112",
+          "label": {
+            "de": "Euro-Notruf",
+            "en": "European emergency",
+            "fr": "Urgence européenne",
+            "it": "Emergenza europea",
+            "nl": "Europees noodnummer",
+            "pl": "Europejski numer alarmowy"
+          }
+        },
+        {
+          "n": "1414",
+          "label": {
+            "de": "Rega (Helikopter)",
+            "en": "Rega (helicopter)",
+            "fr": "Rega (hélicoptère)",
+            "it": "Rega (elicottero)",
+            "nl": "Rega (helikopter)",
+            "pl": "Rega (helikopter)"
+          }
+        },
+        {
+          "n": "145",
+          "label": {
+            "de": "Vergiftung",
+            "en": "Poisoning",
+            "fr": "Intoxication",
+            "it": "Avvelenamento",
+            "nl": "Vergiftiging",
+            "pl": "Zatrucie"
+          }
+        }
+      ],
+      "places": [
+        {
+          "name": {
+            "de": "Hausarzt im Dorf",
+            "en": "Village doctor",
+            "fr": "Médecin du village",
+            "it": "Medico del paese",
+            "nl": "Huisarts in het dorp",
+            "pl": "Lekarz we wsi"
+          },
+          "desc": {
+            "de": "Main Street 1",
+            "en": "Main Street 1",
+            "fr": "Main Street 1",
+            "it": "Main Street 1",
+            "nl": "Main Street 1",
+            "pl": "Main Street 1"
+          },
+          "tel": "+41 00 000 00 01",
+          "hours": {
+            "de": "Mo bis Fr, 8:00 bis 18:00",
+            "en": "Mon to Fri, 8:00 to 18:00",
+            "fr": "lun à ven, 8:00 à 18:00",
+            "it": "lun a ven, 8:00 alle 18:00",
+            "nl": "ma tot vr, 8:00 tot 18:00",
+            "pl": "pn. do pt., 8:00 do 18:00"
+          }
+        },
+        {
+          "name": {
+            "de": "Apotheke",
+            "en": "Pharmacy",
+            "fr": "Pharmacie",
+            "it": "Farmacia",
+            "nl": "Apotheek",
+            "pl": "Apteka"
+          },
+          "desc": {
+            "de": "Main Street 1",
+            "en": "Main Street 1",
+            "fr": "Main Street 1",
+            "it": "Main Street 1",
+            "nl": "Main Street 1",
+            "pl": "Main Street 1"
+          },
+          "tel": "+41 00 000 00 02"
+        },
+        {
+          "name": {
+            "de": "Krankenhaus",
+            "en": "Hospital",
+            "fr": "Hôpital",
+            "it": "Ospedale",
+            "nl": "Ziekenhuis",
+            "pl": "Szpital"
+          },
+          "desc": {
+            "de": "Notaufnahme, 20 Min mit dem Auto",
+            "en": "Emergency department, 20 min by car",
+            "fr": "Urgences, 20 min en voiture",
+            "it": "Pronto soccorso, 20 min in auto",
+            "nl": "Spoedeisende hulp, 20 min met de auto",
+            "pl": "Izba przyjęć, 20 min samochodem"
+          },
+          "tel": "+41 00 000 00 03"
+        }
+      ]
+    }
+  }
+}

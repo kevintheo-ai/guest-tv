@@ -1,0 +1,428 @@
+/* Guest TV: dark slate theme, OLED-friendly, readable from 3 m.
+   Target engines: webOS 4.x (Chromium 53) and webOS 5.x (Chromium 68), therefore:
+   NO CSS grid, no clamp(), no inset, no flex gap, no aspect-ratio.
+   Layout fixed at 1920x1080 (appinfo.json "resolution", same on both TV generations).
+   Vertical grid: header 180 · main from 210 · content from 296 · content ends <= 996
+   (the offline badge sits below, 1004-1050). */
+
+:root {
+  --bg: #0c131c;
+  --panel: rgba(25, 36, 50, 0.86);
+  --panel-hi: rgba(38, 54, 74, 0.95);
+  --line: rgba(255, 255, 255, 0.09);
+  --ink: #eef3f8;
+  --ink-dim: #9eafc2;
+  --accent: #6cc8ff;         /* the one accent: focus, guest name, clock, password; visible from 3 m */
+  --accent-soft: rgba(108, 200, 255, 0.14);
+  --accent-line: rgba(108, 200, 255, 0.45);
+  --accent-deep: #1f5d86;    /* toast background (white text on it) */
+  --radius: 18px;
+  --font: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Inter (SIL OFL 1.1, see assets/fonts/OFL.txt): one variable font, latin + latin-ext (Polish, Dutch and French
+   characters). Chromium 53 (webOS 4) does not understand the weight range and uses the regular instance; that is
+   why the UI only uses 300, 400 and 500 (no synthetic bold on old TVs). */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 300 700; src: url("../assets/fonts/inter-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 300 700; src: url("../assets/fonts/inter-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* The hidden attribute always wins (otherwise a display rule, e.g. on the screensaver, overrides it) */
+[hidden] { display: none !important; }
+
+html, body { width: 1920px; height: 1080px; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 26px;
+  overflow: hidden;
+  -webkit-user-select: none; user-select: none;
+}
+button { font-family: var(--font); color: var(--ink); cursor: pointer; }
+/* Tabular figures: clocks and timetable columns do not jump when digits change
+   (not on temperatures: Inter's tabular minus sign leaves a gap in "-2°") */
+.clock, .ss-clock, .bus-row .t { font-feature-settings: "tnum" 1; }
+
+/* Background: gradient only (no photo), dark towards the bottom for readability and OLED */
+#bg {
+  position: fixed; top: 0; left: 0; width: 1920px; height: 1080px; z-index: 0;
+  background: linear-gradient(180deg, #17243a 0%, #111b28 38%, #0c131c 100%);
+}
+
+/* ---------- Header ---------- */
+/* z-index 3: the language list drops down over the content (main) */
+#hdr {
+  position: relative; z-index: 3; height: 180px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 0 80px;
+}
+/* Full width instead of text width: the TV browser measured the text box too tight and cut the guest name with "…" */
+.greeting { flex: 1 1 0px; max-width: 1280px; }
+.greeting h1 {
+  font-weight: 300; font-size: 66px; line-height: 1.12; letter-spacing: -0.015em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.greeting h1 .guest-name { color: var(--accent); font-weight: 500; }
+.greeting p { color: var(--ink-dim); font-size: 28px; margin-top: 8px; }
+body[data-screen="vacant"] .greeting { visibility: hidden; }
+.hdr-right { display: flex; align-items: center; padding-bottom: 6px; }
+.clock {
+  font-weight: 300; font-size: 54px; line-height: 1;
+  color: var(--accent); text-align: right; margin-right: 32px;
+}
+.clock small {
+  display: block; margin-top: 10px;
+  font-size: 22px; font-weight: 400; color: var(--ink-dim); letter-spacing: 0.01em;
+}
+.lang-toggle {
+  display: flex; align-items: center;
+  background: rgba(25, 36, 50, 0.6); border: 2px solid rgba(158, 175, 194, 0.5);
+  border-radius: 999px; padding: 10px 26px 10px 20px; font-size: 24px; font-weight: 500; letter-spacing: 0.06em;
+}
+.lang-ico { display: block; width: 28px; height: 28px; margin-right: 10px; }
+.lang-ico svg { width: 100%; height: 100%; stroke: var(--ink); fill: none; stroke-width: 2.6; }
+.lang-chev { display: block; width: 22px; height: 22px; margin-left: 8px; }
+.lang-chev svg { width: 100%; height: 100%; stroke: var(--ink-dim); fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Language list below the button (each language in its own language) */
+.lang-wrap { position: relative; }
+.lang-menu {
+  position: absolute; top: 100%; right: 0; width: 320px; margin-top: 22px; padding: 10px;
+  background: #162231; border: 2px solid rgba(158, 175, 194, 0.35); border-radius: var(--radius);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+}
+.lang-opt {
+  position: relative; display: block; width: 100%; text-align: left; background: none;
+  border: 2px solid transparent; border-radius: 12px;
+  font-size: 30px; line-height: 1.2; padding: 12px 22px; margin-bottom: 4px;
+}
+.lang-opt:last-child { margin-bottom: 0; }
+.lang-opt.focused { background: var(--accent-soft); }
+.lang-opt.current { color: var(--accent); }
+/* Check mark for the active language (drawn with borders, not a font glyph) */
+.lang-opt.current:after {
+  content: ""; position: absolute; right: 24px; top: 23px; width: 16px; height: 9px;
+  border-left: 3px solid var(--accent); border-bottom: 3px solid var(--accent); transform: rotate(-45deg);
+}
+
+/* Departure day: check-out notice in place of the stay line */
+.checkout-banner {
+  display: flex; align-items: center; margin-top: 10px;
+  background: var(--accent-soft); border: 2px solid var(--accent); border-radius: 999px;
+  padding: 7px 28px; font-size: 26px; color: var(--accent); white-space: nowrap;
+}
+.cb-link { color: var(--ink); margin-left: 22px; }
+.cb-link:after { content: " ›"; }
+
+/* ---------- Screens ---------- */
+main { position: relative; z-index: 2; height: 900px; padding: 30px 80px 0 80px; }
+.screen { display: none; }
+.screen.active { display: block; }
+.scr-title {
+  font-weight: 500; letter-spacing: -0.01em;
+  font-size: 46px; line-height: 64px; margin-bottom: 22px;
+}
+
+/* ---------- Focus (remote arrows and Magic Remote pointer) ---------- */
+.focusable { outline: none; transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease; }
+.focusable.focused {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(108, 200, 255, 0.65), 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+body.hide-focus .focusable.focused { box-shadow: none; transform: none; }
+
+/* ---------- Home tiles (flex rows, fixed heights) ---------- */
+.row { display: flex; }
+.row-big { height: 430px; margin-bottom: 28px; }
+.row-small { height: 310px; }
+.row .tile { margin-right: 24px; }
+.row .tile:last-child { margin-right: 0; }
+.tile {
+  position: relative; flex: 1 1 0px;
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start;
+  background: linear-gradient(160deg, rgba(32, 46, 64, 0.92), rgba(17, 25, 35, 0.92));
+  border: 2px solid var(--line); border-radius: var(--radius);
+  padding: 34px 34px 32px 34px; text-align: left; overflow: hidden;
+}
+.tile.focused { transform: scale(1.04); background: linear-gradient(160deg, rgba(44, 63, 88, 0.96), rgba(22, 32, 45, 0.96)); }
+.row .tile-tv { flex: 2 1 0px; }
+.tile-ico { display: block; width: 60px; height: 60px; margin-bottom: auto; }
+.tile-ico svg { width: 100%; height: 100%; stroke: var(--accent); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+/* 30 px: with six tiles in row 2 the longest single word (de "Einstellungen") must fit one tile; it cannot wrap */
+.tile-label { font-size: 30px; font-weight: 500; line-height: 1.2; }
+.tile-sub { font-size: 23px; color: var(--ink-dim); margin-top: 6px; line-height: 1.3; max-width: 100%; }
+.tile-tv .tile-ico { width: 96px; height: 96px; }
+.tile-tv .tile-label { font-size: 56px; }
+.tile-tv .tile-sub { font-size: 27px; }
+.tile-stream .tile-label { font-size: 38px; }
+.tile-stream .tile-ico { width: 72px; height: 72px; }
+/* Brand tint over a solid base (nothing of the background shows through) */
+.tile.b-netflix { background: linear-gradient(160deg, rgba(229, 9, 20, 0.30), rgba(17, 25, 35, 0) 62%), #141d28; }
+.b-netflix .tile-ico svg { stroke: #ff3b45; }
+.tile.b-prime { background: linear-gradient(160deg, rgba(0, 168, 225, 0.28), rgba(17, 25, 35, 0) 62%), #141d28; }
+.b-prime .tile-ico svg { stroke: #3cc4ff; }
+.tile.b-disney { background: linear-gradient(160deg, rgba(17, 60, 207, 0.36), rgba(17, 25, 35, 0) 62%), #141d28; }
+.b-disney .tile-ico svg { stroke: #6f95ff; }
+.tile.b-youtube { background: linear-gradient(160deg, rgba(255, 0, 0, 0.26), rgba(17, 25, 35, 0) 62%), #141d28; }
+.b-youtube .tile-ico svg { stroke: #ff4e45; }
+/* Sub line of the small tiles: at most 2 lines (the overflow check in the UI test reports more) */
+.row-small .tile-sub { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+/* Row 1: TV + 4 streaming services (+ gaming when a console is connected):
+   narrower tiles and a slightly smaller font, so everything fits in one row */
+.row-big .tile-stream { padding-left: 26px; padding-right: 26px; }
+.row-big .tile-stream .tile-label { font-size: 34px; }
+.row-big.has-gaming .tile-stream .tile-label { font-size: 31px; }
+.row-big .tile-stream .tile-sub { font-size: 21px; }
+/* Titles of one row on the same height: every tile keeps a strip at the bottom free for the sub line
+   (padding-bottom); the sub line hangs in it (fixed height, equally large negative margin) and never pushes the
+   title up. Row 1: one line, row 2: two lines. The gap to the title is padding-top, not margin-top: otherwise the
+   browser counts 6 px of overflow (a margin above counts towards the scroll area). */
+.row-big .tile { padding-bottom: 66px; }
+.row-big .tile-sub {
+  margin-top: 0; padding-top: 6px; height: calc(1.3em + 6px); margin-bottom: calc(-1.3em - 6px);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.row-small .tile { padding-bottom: 98px; }
+.row-small .tile-sub { margin-top: 0; padding-top: 6px; height: calc(2.6em + 6px); margin-bottom: calc(-2.6em - 6px); }
+
+/* ---------- Panels (sub screens) ---------- */
+.cols { display: flex; align-items: stretch; height: 700px; }
+.cols .panel { flex: 1 1 0px; margin-right: 28px; }
+.cols .panel:last-child { margin-right: 0; }
+.panel {
+  background: var(--panel); border: 2px solid var(--line); border-radius: var(--radius);
+  padding: 34px 38px; overflow: hidden;
+}
+.panel h3 { font-weight: 500; font-size: 32px; line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 16px; }
+.dim { color: var(--ink-dim); }
+.label { color: var(--ink-dim); font-size: 20px; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 18px; }
+
+.list { list-style: none; }
+.list li { position: relative; padding: 13px 0 13px 34px; border-bottom: 1px solid var(--line); font-size: 26px; line-height: 1.3; }
+.list li:last-child { border-bottom: none; }
+.list li:before { content: ""; position: absolute; left: 4px; top: 25px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+.list-check li:before { width: 16px; height: 9px; border-radius: 0; background: none; border-left: 3px solid var(--accent); border-bottom: 3px solid var(--accent); transform: rotate(-45deg); top: 21px; left: 2px; }
+
+/* Wi-Fi */
+.cols .panel-wlan { flex: 1.1 1 0px; }
+.wlan-ssid { font-size: 44px; font-weight: 500; margin-top: 4px; word-wrap: break-word; }
+.wlan-pass {
+  font-size: 54px; font-weight: 500; color: var(--accent); letter-spacing: 0.03em;
+  margin-top: 4px; word-wrap: break-word; line-height: 1.15;
+}
+.qr-row { display: flex; align-items: center; margin-top: 28px; }
+.qr {
+  display: block; width: 230px; height: 230px; flex: none;
+  background: #fff; border-radius: 14px; padding: 10px; image-rendering: pixelated;
+}
+.qr-small { width: 190px; height: 190px; }
+.qr-cap { margin-left: 24px; font-size: 23px; color: var(--ink-dim); line-height: 1.35; }
+.qr-url { color: var(--ink); font-size: 25px; word-wrap: break-word; }
+
+/* ---------- Rail + content (around you, weather, help) ---------- */
+.around-rail { display: flex; height: 700px; }
+.cat-list { width: 470px; flex: none; margin-right: 28px; }
+.cat-item {
+  display: block; width: 100%; text-align: left;
+  background: var(--panel); border: 2px solid var(--line); border-radius: var(--radius);
+  font-size: 29px; line-height: 1.2; padding: 18px 30px; margin-bottom: 12px;
+}
+/* Content on the right: scrolls with the focus (focus() brings the element into view), no scroll bar */
+.rail-body { position: relative; flex: 1 1 0px; height: 700px; overflow-y: auto; overflow-x: hidden; }
+.rail-body::-webkit-scrollbar { display: none; }
+.rail-pane { min-height: 100%; }
+.cat-item.selected { border-color: var(--accent-line); background: var(--panel-hi); }
+.cat-item.focused { transform: scale(1.03); }
+.place-grid { flex: 1 1 0px; display: flex; flex-wrap: wrap; align-content: flex-start; }
+/* Exactly 4 card rows high: paging never shows a half-cut card */
+.rail-body.place-grid { height: 672px; }
+/* stretch: on the TV (webOS 5, Chromium 68) name and line were only as wide as their text, measured too tight,
+   and the name got cut with "…" despite free space (assumed cause: the button default align-items flex-start) */
+.place {
+  display: flex; flex-direction: column; justify-content: center; align-items: stretch;
+  width: 615px; height: 150px; margin: 0 24px 24px 0; text-align: left;
+  background: var(--panel); border: 2px solid var(--line); border-radius: var(--radius);
+  padding: 0 34px; overflow: hidden;
+}
+.place.focused { background: var(--panel-hi); }
+/* Place with a detail view (address, phone, hours): arrow after the name */
+.place.has-more b:after { content: " ›"; color: var(--accent); }
+.place:nth-of-type(2n) { margin-right: 0; }
+.place b { display: block; font-size: 30px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.place span { display: block; margin-top: 8px; color: var(--ink-dim); font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Bus departures (category with "bus": true): full width above the places */
+.bus-board {
+  width: 100%; margin-bottom: 24px; padding: 22px 30px;
+  background: var(--panel); border: 2px solid var(--line); border-radius: var(--radius);
+}
+.bus-board h4 { font-size: 27px; font-weight: 500; margin-bottom: 8px; }
+.bus-row { display: flex; align-items: baseline; font-size: 26px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.bus-row:last-of-type { border-bottom: none; }
+.bus-row .t { width: 96px; flex: none; font-weight: 500; }
+.bus-row .l { flex: none; margin-right: 18px; padding: 0 10px; border-radius: 8px; background: var(--accent); color: var(--bg); font-size: 21px; font-weight: 500; }
+.bus-row .to { flex: none; margin-right: 14px; }
+.bus-row .via { flex: 1 1 0px; color: var(--ink-dim); font-size: 22px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bus-row .in { flex: none; margin-left: 14px; color: var(--accent); }
+.bus-note { color: var(--ink-dim); font-size: 21px; margin-top: 8px; }
+
+/* ---------- Weather ---------- */
+/* Left: the selected day (today = now) with the mountain points, right: the days (focus selects) */
+.wx-pane { display: flex; }
+.wx-detail {
+  flex: 1 1 0px; margin-right: 24px; padding: 34px 44px;
+  background: var(--panel); border: 2px solid var(--line); border-radius: var(--radius);
+}
+.wx-day { color: var(--ink-dim); font-size: 28px; }
+.wx-main { display: flex; align-items: center; margin-top: 8px; }
+.w-now-ico { width: 104px; height: 104px; margin-right: 26px; }
+.w-now-ico svg, .wx-dayrow .wi svg, .w-mtn .wi svg { stroke: var(--accent); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; width: 100%; height: 100%; }
+.w-temp { font-weight: 300; font-size: 128px; line-height: 1; letter-spacing: -0.03em; }
+.w-desc { font-size: 36px; margin-top: 6px; }
+.w-meta { color: var(--ink-dim); font-size: 25px; margin-top: 10px; }
+.w-mountain { margin-top: 26px; border-top: 2px solid var(--line); }
+.w-mtn { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.w-mtn:last-child { border-bottom: none; }
+.w-mtn .wi { width: 44px; height: 44px; flex: none; margin-right: 18px; }
+.w-mtn b { font-size: 25px; font-weight: 500; margin-right: 12px; }
+.w-mtn span { color: var(--ink-dim); font-size: 21px; }
+.w-mtn .mt { margin-left: auto; font-size: 30px; }
+.wx-days { width: 380px; flex: none; }
+.wx-dayrow {
+  display: flex; align-items: center; width: 100%; height: 88px; margin-bottom: 10px; padding: 0 24px; text-align: left;
+  background: var(--panel); border: 2px solid var(--line); border-radius: var(--radius);
+}
+.wx-dayrow.selected { background: var(--panel-hi); border-color: var(--accent-line); }
+.wx-dayrow .d { flex: 1 1 0px; font-size: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wx-dayrow .wi { width: 42px; height: 42px; flex: none; margin: 0 16px; }
+.wx-dayrow .t { width: 104px; flex: none; text-align: right; font-size: 28px; }
+.wx-dayrow .t small { color: var(--ink-dim); font-size: 0.8em; }
+
+/* Webcams: 3 x 2, images come from the Pi */
+.cam-grid { display: flex; flex-wrap: wrap; }
+.cam { display: block; width: 404px; margin: 0 24px 24px 0; padding: 0; text-align: left; background: none; border: 2px solid transparent; border-radius: 16px; }
+.cam.focused { transform: scale(1.03); }
+.cam:nth-child(3n) { margin-right: 0; }
+.cam-img {
+  display: block; width: 404px; height: 227px; object-fit: cover; border-radius: 14px;
+  background: var(--panel); border: 2px solid var(--line);
+}
+.cam-cap { font-size: 22px; margin: 10px 6px 4px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cam-cap small { display: block; margin-top: 2px; color: var(--ink-dim); font-size: 20px; }
+/* Webcam large (OK), left/right pages through the cameras */
+.modal-box.modal-cam { width: 1720px; padding: 24px; }
+.cam-big { display: block; width: 1672px; height: 860px; object-fit: contain; background: #000; border-radius: 12px; }
+.modal-cam .cam-cap { font-size: 26px; margin: 14px 4px 0 4px; }
+.cam-none { display: flex; align-items: center; justify-content: center; color: var(--ink-dim); font-size: 22px; text-align: center; padding: 20px; }
+
+/* ---------- Help ---------- */
+.help-pane { height: 700px; }
+/* Contact, guest card, video: one thing large and centred, no help texts */
+.help-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.help-center > p { font-size: 28px; line-height: 1.45; max-width: 900px; }
+.help-phone { font-weight: 300; font-size: 76px; color: var(--accent); line-height: 1.1; white-space: nowrap; }
+.help-center .qr-row { margin-top: 40px; }
+.help-center .qr-cap { font-size: 26px; text-align: left; }
+.qr-big { width: 360px; height: 360px; }
+/* Emergency: large numbers, below them doctor, pharmacy, hospitals */
+.sos-grid { display: flex; flex-wrap: wrap; }
+.sos { width: 15.4%; margin-right: 1.5%; padding: 8px 14px; border-radius: 14px; background: rgba(224, 96, 90, 0.12); border: 2px solid rgba(224, 96, 90, 0.45); }
+.sos:last-child { margin-right: 0; }
+.sos b { display: block; font-size: 38px; font-weight: 500; color: #ff8a80; line-height: 1.1; }
+.sos span { display: block; font-size: 20px; line-height: 1.25; color: var(--ink-dim); }
+.doc-list { margin-top: 14px; }
+.help-pane[data-pane="emergency"] { padding-top: 26px; padding-bottom: 20px; }
+.doc { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.doc:last-child { border-bottom: none; }
+.doc b { font-size: 25px; font-weight: 500; }
+.doc .tel { color: var(--accent); margin-left: 14px; font-size: 25px; }
+.doc span { display: block; color: var(--ink-dim); font-size: 20px; line-height: 1.35; margin-top: 2px; }
+.faq-q {
+  display: block; text-align: left; background: none;
+  border: 2px solid transparent; border-radius: 12px;
+  font-size: 26px; line-height: 1.2; padding: 8px 18px; margin-left: -18px; width: calc(100% + 36px);
+}
+.faq-q.selected { color: var(--accent); }
+.faq-answer {
+  display: flex; align-items: flex-start; margin-top: 16px; padding-top: 18px;
+  border-top: 2px solid var(--line);
+}
+.faq-answer p { flex: 1 1 0px; font-size: 24px; line-height: 1.42; }
+.faq-answer .qr { margin-left: 24px; width: 150px; height: 150px; padding: 8px; }
+
+/* ---------- Settings ---------- */
+.settings-list { width: 1240px; }
+.setting-row {
+  display: flex; align-items: center; justify-content: space-between; width: 100%; height: 116px;
+  background: var(--panel); border: 2px solid var(--line); border-radius: var(--radius);
+  padding: 0 40px; margin-bottom: 22px; text-align: left;
+}
+.setting-row.focused { transform: scale(1.02); background: var(--panel-hi); }
+.s-name { font-size: 34px; }
+/* Accent = active on the TV; white = chosen, not on the TV yet; grey = TV value not read yet */
+.s-val { display: flex; align-items: center; color: var(--accent); font-size: 32px; }
+.s-cur { display: inline-block; min-width: 300px; text-align: center; }
+.s-cur.pending { color: var(--ink); }
+.s-cur.unknown { color: var(--ink-dim); } /* TV value unknown: never show it as "active" */
+.s-arrow { color: var(--ink-dim); font-size: 46px; line-height: 1; padding: 6px 22px; border-radius: 10px; }
+.setting-row.focused .s-arrow { color: var(--ink); }
+
+/* ---------- Vacant (no guest) ---------- */
+/* Pulled up so the box centre is the screen centre (top 210 - 105 = 105, 105 + 870 / 2 = 540), not the centre of
+   the area below the header */
+#scr-vacant.active { display: flex; align-items: center; justify-content: center; height: 870px; margin-top: -105px; }
+.vacant-wrap { text-align: center; }
+.vacant-title { font-weight: 300; font-size: 96px; line-height: 1.1; letter-spacing: -0.02em; }
+.vacant-hint { color: var(--ink-dim); font-size: 24px; margin-top: 56px; opacity: 0.85; }
+
+/* ---------- Detail view (place, console picker, large webcam) ---------- */
+.modal { position: fixed; top: 0; left: 0; width: 1920px; height: 1080px; z-index: 7; background: rgba(4, 8, 13, 0.78); }
+.modal-box {
+  position: absolute; left: 50%; top: 50%; width: 1000px; transform: translate(-50%, -50%);
+  background: #142030; border: 2px solid rgba(158, 175, 194, 0.35); border-radius: var(--radius);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75); padding: 46px 56px;
+}
+.modal-box h3 { font-weight: 500; font-size: 46px; line-height: 1.12; letter-spacing: -0.01em; }
+.modal-box .lead { color: var(--ink-dim); font-size: 27px; margin: 8px 0 18px 0; line-height: 1.35; }
+/* Values without field names: what it is shows by itself (address, number, hours, web) */
+.md-row { padding: 14px 0; border-top: 1px solid var(--line); font-size: 30px; line-height: 1.35; }
+.md-row.tel { color: var(--accent); }
+.md-row.web { color: var(--ink-dim); }
+.md-btn {
+  background: var(--panel); border: 2px solid var(--line); border-radius: 999px;
+  font-size: 26px; padding: 12px 38px;
+}
+.md-choice { display: flex; margin-top: 26px; }
+.md-choice .md-btn { flex: 1 1 0px; margin-right: 22px; border-radius: var(--radius); padding: 34px 20px; font-size: 32px; }
+.md-choice .md-btn:last-child { margin-right: 0; }
+
+/* ---------- Badge / toast ---------- */
+.offline-badge {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 5;
+  background: var(--accent-soft); border: 2px solid var(--accent); color: var(--accent);
+  padding: 10px 34px; border-radius: 999px; font-size: 21px; white-space: nowrap;
+}
+.toast {
+  position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%); z-index: 6;
+  background: var(--accent-deep); color: var(--ink); padding: 16px 44px; border-radius: 999px;
+  font-size: 26px; white-space: nowrap; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Screensaver (class .on controls visibility; the clock moves against burn-in) ---------- */
+.screensaver {
+  position: fixed; top: 0; left: 0; width: 1920px; height: 1080px; z-index: 10;
+  background: #000; display: none;
+}
+.screensaver.on { display: block; }
+/* Optional photos (state.photos); without photos the screensaver stays plain black */
+.ss-photo {
+  position: absolute; top: 0; left: 0; width: 1920px; height: 1080px;
+  background-size: cover; background-position: center;
+  opacity: 0.3; transition: opacity 1.6s ease;
+}
+.ss-box { position: absolute; width: 900px; text-align: center; transition: left 2s ease, top 2s ease; }
+.ss-clock { font-weight: 300; font-size: 160px; line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+.ss-date { font-size: 34px; color: var(--ink-dim); margin-top: 16px; }
+.ss-weather { font-size: 34px; color: var(--ink-dim); margin-top: 10px; }

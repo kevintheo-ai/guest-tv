@@ -1,0 +1,15 @@
+# Build output (every build recreates it)
+/build/dist/
+
+# Your own data never goes into git
+/pi/config.json
+/pi/www/
+/app/assets/img/
+*.env
+
+__pycache__/
+*.pyc
+.ruff_cache/
+.pytest_cache/
+.DS_Store
+.claude/settings.local.json
